@@ -1,0 +1,16 @@
+Trong EX3: send file by request
+ở phía SERVER tạo ra socket, và listen trên socket này. 
+Mỗi khi có 1 Client connect tới và được accept, chương trình chính sẽ FORK() ra 2 process, 
+lần lượt đảm nhiệm việc nhận dữ liệu từ Client và đảm nhiệm việc gửi dữ liệu đến Client này. 
+Process cha vẫn tiếp tục lắng nghe các Client khác connect tới.
+giao tiếp giữa các Process sử dụng Message Queue.
+- Ở process nhận dữ liệu: thực hiện chat với Client, nhận request get list các file, request get file by name
+- Ở process gửi dữ liệu: khi nhận được các thông tin về request từ process nhận dữ liệu thông qua MQ, ở đây sẽ xử lý các yêu cầu và gửi lại thông tin về cho Client
+các thông tin này gồm thông tin chat, list các file, và gửi file.
+
+
+ở phía CLIENT:
+gửi các thông tin chat đến SERVER, gửi các request list file, file name và chờ phản hồi lần lượt các request.
+nhận được phản hồi list file và show list này ra, nhận được phản hồi get file sẽ hiện thị thông tin file( file name, downloading status, % download)
+
+Message được đính kèm header chưa thông tin về command_kind, leng data để đảm bảo các dữ liệu nhận được là đầy đủ và chính xác.
